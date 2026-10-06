@@ -5,14 +5,14 @@ title: Início
 <section class="hero">
   <div class="avatar">JC</div>
   <div>
-    <h1><mark>Desenvolvedor</mark><br>Java &amp; Angular</h1>
-    <p>Escrevo sobre arquitetura de software, Clean Architecture e como usar IA com disciplina de engenharia.</p>
-    <p class="where">Rio de Janeiro</p>
-    <p><a href="{{ '/blog/' | relative_url }}">Ler o blog ?</a></p>
+    <h1><mark>Engenheiro</mark><br>de Software<br>Java &amp; Angular</h1>
+    <p>Mais de 6 anos construindo backends, microsserviços e plataformas de alto volume nos setores de seguros e financeiro. Escrevo aqui sobre arquitetura, Clean Architecture e engenharia com IA.</p>
+    <p class="where">João Pessoa, PB</p>
+    <p><a href="{{ '/blog/' | relative_url }}">Ler o blog →</a></p>
   </div>
 </section>
 
-<h2 class="section-title">Últimos artigos</h2>
+<h2 class="section-title" id="artigos">Últimos artigos</h2>
 <div class="list">
   {% for post in site.posts limit:5 %}
   <a class="item" href="{{ post.url | relative_url }}">
@@ -22,3 +22,53 @@ title: Início
   </a>
   {% endfor %}
 </div>
+
+<h2 class="section-title" id="experiencia">Experiência</h2>
+<div class="timeline">
+  <div class="job">
+    <span class="d">jan/2023 – jan/2026</span>
+    <h3>Analista de Desenvolvimento de Sistemas · Porto Seguro (Grupo Porto)</h3>
+    <p>Evolução de plataformas de seguros em sinistros, cotações e apólices, atuando na Azul Seguros e na Porto Seguro.</p>
+    <ul>
+      <li>Plataforma de cotação com cerca de 18 mil cotações por dia: Java (Spring WebFlux), Angular, Redis e JasperReports.</li>
+      <li>Migração da camada de persistência de Oracle para MongoDB, com escalabilidade horizontal e ganhos de performance na consulta de apólices.</li>
+      <li>Cobertura Rodas e Pneus, com aumento de 3 a 4% na conversão de cotações.</li>
+      <li>Migração de Wildfly 8 para 22 e containerização com Docker no Sistema de Avisos de Sinistro.</li>
+    </ul>
+  </div>
+  <div class="job">
+    <span class="d">fev/2020 – jan/2023</span>
+    <h3>Analista Desenvolvedor · Minsait (Indra)</h3>
+    <p>De trainee a analista desenvolvedor, com co-liderança técnica de uma equipe de cerca de 30 desenvolvedores.</p>
+    <ul>
+      <li><strong>Banco do Brasil / SWIFT:</strong> microsserviços em Quarkus com filas MQ e migração de mensagens do formato MT para MX (ISO 20022).</li>
+      <li><strong>Santander:</strong> evolução de serviços legados do backoffice com Java, Spring Boot e Angular 8, além de code reviews, Clean Code e Design Patterns para o time.</li>
+    </ul>
+  </div>
+  <div class="job">
+    <span class="d">ago/2019 – jan/2020</span>
+    <h3>Estagiário de TI · Tribunal de Contas da União (TCU)</h3>
+    <p>Tratamento e consolidação de bases de dados com SQL para relatórios de auditoria.</p>
+  </div>
+</div>
+
+<h2 class="section-title">Tecnologias</h2>
+<p class="chips">
+  {% assign stack = "Java,Spring Boot,Spring WebFlux,Quarkus,Angular,TypeScript,Oracle,MongoDB,Redis,Docker,Kubernetes,MQ,Microservices,REST,Clean Code,JUnit" | split: "," %}
+  {% for s in stack %}<span>{{ s }}</span>{% endfor %}
+</p>
+
+<h2 class="section-title" id="formacao">Formação</h2>
+<div class="list">
+  <div class="item"><span class="d">set/2025 – ago/2026 (em andamento)</span><h3>Pós-graduação em Engenharia de Software Java</h3><p>UNIPDS</p></div>
+  <div class="item"><span class="d">2021 – 2023</span><h3>MBA em Full Stack Web Development</h3><p>UNIESP Centro Universitário</p></div>
+  <div class="item"><span class="d">2017 – 2019</span><h3>Tecnólogo em Gestão da Tecnologia da Informação</h3><p>UNIPÊ</p></div>
+  <div class="item"><span class="d">Certificação</span><h3>Scrum Foundation Professional Certificate (SFPC)</h3></div>
+</div>
+
+<h2 class="section-title" id="contato">Contato</h2>
+<p class="contact">
+  <a href="https://www.linkedin.com/in/calixto-neto">LinkedIn</a> ·
+  <a href="https://github.com/{{ site.author.github }}">GitHub</a> ·
+  <a href="mailto:{{ site.author.email }}">{{ site.author.email }}</a>
+</p>

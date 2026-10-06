@@ -3,7 +3,9 @@
   <nav class="menu">
     <a href="{{ '/' | relative_url }}"{% if page.url == '/' %} class="active"{% endif %}>Início</a>
     <a href="{{ '/blog/' | relative_url }}"{% if page.url == '/blog/' %} class="active"{% endif %}>Blog</a>
-    <a href="{{ '/sobre/' | relative_url }}"{% if page.url == '/sobre/' %} class="active"{% endif %}>Sobre</a>
+    <a href="{{ '/' | relative_url }}#experiencia">Experiência</a>
+    <a href="{{ '/' | relative_url }}#formacao">Formação</a>
+    <a href="{{ '/' | relative_url }}#contato">Contato</a>
   </nav>
 
   {% assign series = site.posts | where_exp: "p", "p.serie" | sort: "ordem" %}

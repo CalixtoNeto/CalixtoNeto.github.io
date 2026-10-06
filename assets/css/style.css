@@ -15,7 +15,7 @@ a:hover{text-decoration:underline}
   position:sticky;top:0;height:100vh;overflow-y:auto;padding:28px 0}
 .brand{display:block;padding:0 28px 18px;font-size:26px;font-weight:800;color:var(--fg)}
 .brand:hover{text-decoration:none}
-.menu{display:flex;gap:8px;padding:0 28px 22px;border-bottom:1px solid var(--line)}
+.menu{display:flex;flex-wrap:wrap;gap:8px;padding:0 28px 22px;border-bottom:1px solid var(--line)}
 .menu a{font:700 13px var(--mono);color:var(--muted);padding:6px 10px;border-radius:6px;background:var(--panel2)}
 .menu a:hover,.menu a.active{color:#fff;background:var(--accent);text-decoration:none}
 .toc h2{margin:22px 28px 10px;font:700 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
@@ -82,3 +82,14 @@ pre code{background:none;padding:0}
   .content{padding-top:64px}
   .hero{padding:28px}
 }
+
+.timeline{display:grid;gap:14px}
+.job{background:var(--panel2);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:10px;padding:20px 24px}
+.job h3{margin:2px 0 6px;font-size:20px}
+.job p,.job li{color:#cfcfd6;font-size:16px}
+.job ul{margin:8px 0 0;padding-left:20px}
+.job .d{font:400 12px var(--mono);color:var(--muted)}
+.item h3+p{margin-top:2px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0}
+.chips span{font:400 13px var(--mono);background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:4px 10px}
+.contact{font-size:18px}
