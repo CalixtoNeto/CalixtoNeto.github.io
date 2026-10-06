@@ -1,0 +1,164 @@
+---
+layout: default
+title: Currículo | João Calixto Neto
+permalink: /curriculo/
+---
+<main class="pagina pagina-curriculo">
+  <div class="cv-topo">
+    <div>
+      <h1 class="cv-nome">João Calixto da Silva Neto</h1>
+      <p class="cv-subtitulo">Engenheiro de Software Sênior · Java · Microsserviços · Arquiteturas Distribuídas</p>
+      <div class="cv-contatos">
+        <span>📍 João Pessoa – PB, Brasil</span>
+        <a href="mailto:{{ site.author.email }}">✉ {{ site.author.email }}</a>
+        <a href="https://wa.me/{{ site.author.whatsapp }}" target="_blank" rel="noopener">📱 (83) 99548-1710</a>
+        <a href="https://linkedin.com/in/{{ site.author.linkedin }}" target="_blank" rel="noopener">🔗 linkedin.com/in/calixto-neto</a>
+        <a href="https://github.com/{{ site.author.github }}" target="_blank" rel="noopener">💻 github.com/{{ site.author.github }}</a>
+      </div>
+    </div>
+    <div class="cv-acoes no-print">
+      <button onclick="window.print()" class="btn btn-lime">🖨️ Imprimir / Salvar como PDF</button>
+      <a href="{{ '/' | relative_url }}" class="btn btn-outline">← Voltar ao Início</a>
+    </div>
+  </div>
+
+  <section class="cv-secao">
+    <h2 class="cv-secao-titulo">Resumo Profissional</h2>
+    <p class="cv-texto">
+      Engenheiro de Software com mais de <strong>6 anos de experiência</strong> no desenvolvimento de sistemas backend resilientes e arquiteturas distribuídas com foco em <strong>Java, microsserviços e plataformas de alta volumetria</strong>. Sólida atuação em ambientes de missão crítica dos setores <strong>Bancário e de Seguros</strong>, participando de sistemas responsáveis por dezenas de milhares de transações diárias. Experiência comprovada em modernização de legados, transição regulatória bancária internacional (<strong>SWIFT / ISO 20022</strong>), migração de persistência de bancos relacionais para NoSQL (Oracle → MongoDB), containerização com Docker/Kubernetes e liderança técnica de equipes multidisciplinares com foco em Clean Architecture, SOLID e qualidade de software.
+    </p>
+  </section>
+
+  <section class="cv-secao">
+    <h2 class="cv-secao-titulo">Experiência Profissional</h2>
+
+    <article class="cv-item">
+      <div class="cv-item-header">
+        <div>
+          <h3 class="cv-empresa">Porto Seguro Companhia de Seguros Gerais (Grupo Porto)</h3>
+          <span class="cv-cargo">Analista de Desenvolvimento de Sistemas / Analista de Engenharia de Software</span>
+        </div>
+        <span class="cv-periodo">jan/2023 – jan/2026 · 3 anos</span>
+      </div>
+      <p class="cv-desc">Atuação integrada nas empresas do Grupo Porto (Azul Seguros e Porto Seguro), liderando a evolução de plataformas de seguros em frentes críticas de sinistros, cotações e apólices.</p>
+      
+      <div class="cv-subprojeto">
+        <h4>Porto Seguro · Alta Volumetria &amp; Emissão</h4>
+        <ul>
+          <li>Desenvolvimento e sustentação de plataforma de alta escala com <strong>Java (Spring WebFlux)</strong>, TypeScript e Angular, processando uma média de <strong>18 mil cotações diárias</strong> com requisitos estritos de baixa latência e alta disponibilidade.</li>
+          <li>Liderança na migração da camada de persistência de <strong>Oracle SQL para MongoDB</strong>, redesenhando modelos para suportar escalabilidade horizontal e eliminando gargalos em consultas de apólices.</li>
+          <li>Implementação de camada de cache distribuído com <strong>Redis</strong>, otimizando tempos de resposta em operações críticas.</li>
+          <li>Modelagem e lançamento da cobertura <em>Rodas e Pneus</em>, proporcionando aumento de <strong>3% a 4% na conversão de cotações</strong>.</li>
+          <li>Geração de documentos e apólices em larga escala com <strong>JasperReports</strong>.</li>
+        </ul>
+      </div>
+
+      <div class="cv-subprojeto">
+        <h4>Azul Seguros · Sistema de Avisos de Sinistro</h4>
+        <ul>
+          <li>Evolução do Sistema de Avisos de Sinistro cobrindo ponta a ponta o ciclo das ocorrências (Java, Angular, Oracle).</li>
+          <li>Condução da modernização de infraestrutura com migração de servidores <strong>Wildfly 8 para Wildfly 22</strong>, eliminando vulnerabilidades de segurança e garantindo conformidade tecnológica.</li>
+          <li>Containerização das aplicações com <strong>Docker</strong>, padronizando deploys e acelerando o pipeline de entrega contínua.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="cv-item">
+      <div class="cv-item-header">
+        <div>
+          <h3 class="cv-empresa">Minsait Brasil Ltda (Indra)</h3>
+          <span class="cv-cargo">Analista Desenvolvedor (Evolução a Co-liderança Técnica)</span>
+        </div>
+        <span class="cv-periodo">fev/2020 – jan/2023 · 3 anos</span>
+      </div>
+      <p class="cv-desc">Atuação contínua em projetos estratégicos para grandes instituições financeiras, com trajetória de Trainee a Analista Desenvolvedor com co-liderança técnica de equipe de cerca de 30 desenvolvedores.</p>
+
+      <div class="cv-subprojeto">
+        <h4>Projeto Banco do Brasil · SWIFT &amp; ISO 20022</h4>
+        <ul>
+          <li>Desenvolvimento de microsserviços em <strong>Java (Quarkus)</strong> e mensageria <strong>MQ</strong> para leitura, processamento e manipulação de mensagens financeiras do protocolo <strong>SWIFT</strong> em alto volume.</li>
+          <li>Implementação da engine de migração e conversão de mensagens financeiras do formato <strong>MT (posicional) para MX (XML estruturado ISO 20022)</strong>, assegurando conformidade com a regulamentação internacional.</li>
+          <li>Modelagem relacional e construção de consultas otimizadas para garantia de consistência transacional e auditoria bancária.</li>
+        </ul>
+      </div>
+
+      <div class="cv-subprojeto">
+        <h4>Projeto Santander · Backoffice &amp; Modernização</h4>
+        <ul>
+          <li>Evolução de microsserviços backend com <strong>Java / Spring Boot</strong> e migração de telas legadas para <strong>Angular</strong> no backoffice do Banco Santander.</li>
+          <li>Atuação como referência técnica e co-líder: condução de <strong>Code Reviews</strong>, disseminação de boas práticas de <strong>Clean Code, Clean Architecture e Design Patterns</strong> para time de 30 profissionais.</li>
+          <li>Gestão de backlog técnico, governança com Git e facilitação de ritos ágeis (SCRUM).</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="cv-item">
+      <div class="cv-item-header">
+        <div>
+          <h3 class="cv-empresa">Tribunal de Contas da União (TCU)</h3>
+          <span class="cv-cargo">Estagiário de Tecnologia da Informação</span>
+        </div>
+        <span class="cv-periodo">ago/2019 – jan/2020 · 6 meses</span>
+      </div>
+      <ul>
+        <li>Tratamento, consolidação e cruzamento de grandes bases de dados relacionais via <strong>SQL</strong> para auditorias institucionais e relatórios técnicos.</li>
+      </ul>
+    </article>
+  </section>
+
+  <section class="cv-secao">
+    <h2 class="cv-secao-titulo">Competências Técnicas</h2>
+    <div class="cv-skills-grid">
+      <div>
+        <strong>Linguagens &amp; Frameworks:</strong>
+        <p>Java (11, 17, 21), Spring Boot, Spring WebFlux, Spring Data, Quarkus, TypeScript, JavaScript, Angular (8 a 17), HTML5, CSS3.</p>
+      </div>
+      <div>
+        <strong>Bancos de Dados &amp; Cache:</strong>
+        <p>Oracle Database (SQL avançado, modelagem relacional), MongoDB (NoSQL, modelagem de documentos), Redis (cache distribuído).</p>
+      </div>
+      <div>
+        <strong>Mensageria &amp; Protocolos:</strong>
+        <p>IBM MQ / RabbitMQ, Protocolo SWIFT (mensagens MT e MX), Padrão ISO 20022, Arquitetura orientada a eventos.</p>
+      </div>
+      <div>
+        <strong>Arquitetura &amp; Qualidade:</strong>
+        <p>Clean Architecture, SOLID, Design Patterns, Microservices, BFF, APIs RESTful, JUnit, Mockito, Code Review, Refatoração.</p>
+      </div>
+      <div>
+        <strong>Infraestrutura &amp; Ferramentas:</strong>
+        <p>Docker, Kubernetes, Wildfly / JBoss, Git / GitLab / GitHub, JasperReports, Linux, Metodologia Ágil (SCRUM).</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cv-secao">
+    <h2 class="cv-secao-titulo">Formação Acadêmica</h2>
+    <div class="cv-grid-formacao">
+      <div class="cv-formacao-item">
+        <strong>Pós-graduação em Engenharia de Software Java</strong>
+        <span>UNIPDS · set/2025 – ago/2026 (em andamento)</span>
+      </div>
+      <div class="cv-formacao-item">
+        <strong>MBA em Full Stack Web Development</strong>
+        <span>UNIESP Centro Universitário · 2021 – 2023</span>
+      </div>
+      <div class="cv-formacao-item">
+        <strong>Graduação Tecnológica em Gestão da TI</strong>
+        <span>UNIPÊ – Centro Universitário de João Pessoa · 2017 – 2019</span>
+      </div>
+      <div class="cv-formacao-item">
+        <strong>Técnico em Manutenção e Suporte em Informática</strong>
+        <span>SENAI Paraíba · 2015 – 2017</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="cv-secao">
+    <h2 class="cv-secao-titulo">Certificações &amp; Atividades Extracurriculares</h2>
+    <ul class="cv-lista-simples">
+      <li><strong>Scrum Foundation Professional Certificate (SFPC)</strong> – CertiProf</li>
+      <li><strong>Projeto de Extensão Acadêmica:</strong> Clube de Programação da UNIPÊ</li>
+    </ul>
+  </section>
+</main>

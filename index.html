@@ -5,40 +5,155 @@ title: Início
 <section class="introducao">
   {% assign fotos = site.static_files | where_exp: "f", "f.path contains '/assets/img/fotos/'" %}
   {% if fotos.size > 0 %}
-  <div class="carrossel" aria-label="Fotos">
-    {% for f in fotos %}<img src="{{ f.path | relative_url }}" alt="" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"{% if forloop.first %} class="ativa"{% endif %}>{% endfor %}
+  <div class="carrossel" aria-label="Fotos de João Calixto">
+    {% for f in fotos %}<img src="{{ f.path | relative_url }}" alt="João Calixto - Engenheiro de Software" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"{% if forloop.first %} class="ativa"{% endif %}>{% endfor %}
   </div>
   {% else %}<div class="avatar" aria-hidden="true">JC</div>{% endif %}
-  <div>
-    <h1>Engenheiro de Software Java &amp; Angular</h1>
-    <p>Mais de 6 anos construindo backends, microsserviços e plataformas de alto volume em seguros e no setor financeiro. Localizado em João Pessoa 🌴</p>
+  <div class="introducao-conteudo">
+    <div class="status-tag"><span class="status-dot"></span> Aberto a novas oportunidades e desafios sênior</div>
+    <h1>Engenheiro de Software Sênior</h1>
+    <p class="introducao-lead">Especialista em <strong>Java, Microsserviços e Sistemas Distribuídos</strong> de alta escala nos setores financeiro e de seguros. Mais de 6 anos liderando modernizações arquiteturais, resiliência e entregas críticas. Baseado em João Pessoa 🌴</p>
+    <div class="hero-acoes">
+      <a href="{{ '/curriculo/' | relative_url }}" class="btn btn-dark">Ver Currículo Completo</a>
+      <a href="https://wa.me/{{ site.author.whatsapp }}?text=Ol%C3%A1%20Jo%C3%A3o,%20vi%20seu%20site%20e%20gostaria%20de%20conversar" target="_blank" rel="noopener" class="btn btn-lime">WhatsApp</a>
+      <a href="https://www.linkedin.com/in/{{ site.author.linkedin }}" target="_blank" rel="noopener" class="btn btn-outline">LinkedIn ↗</a>
+    </div>
+  </div>
+</section>
+
+<section class="metricas-strip" aria-label="Métricas de Impacto">
+  <div class="metricas-container">
+    <div class="metrica-card">
+      <span class="metrica-numero">+6 anos</span>
+      <span class="metrica-rotulo">Engenharia de Software em ambientes críticos</span>
+    </div>
+    <div class="metrica-card">
+      <span class="metrica-numero">18k+ / dia</span>
+      <span class="metrica-rotulo">Cotações processadas em tempo real</span>
+    </div>
+    <div class="metrica-card">
+      <span class="metrica-numero">30+ devs</span>
+      <span class="metrica-rotulo">Equipe com co-liderança técnica</span>
+    </div>
+    <div class="metrica-card">
+      <span class="metrica-numero">SWIFT &amp; ISO</span>
+      <span class="metrica-rotulo">Transição regulatória internacional (MT→MX)</span>
+    </div>
   </div>
 </section>
 
 <section class="experiencia" id="experiencia">
   <h2 class="subtitulo">Experiência</h2>
   <div>
-    <p class="experiencia-texto">Atuo em <strong>sistemas críticos</strong> dos setores de seguros e financeiro, com foco em <strong>Java</strong>, <strong>microsserviços</strong> e modernização de legados.</p>
+    <p class="experiencia-texto">Atuação hands-on em <strong>sistemas de missão crítica</strong>, arquiteturas orientadas a eventos e modernização contínua com foco em disponibilidade, segurança e performance.</p>
 
     <div class="empresa">
-      <span class="empresa-ano">2023-26</span>
-      <h3 class="empresa-titulo">Porto Seguro (Grupo Porto)</h3>
-      <ul class="empresa-habilidades"><li>Java</li><li>Spring WebFlux</li><li>Angular</li><li>MongoDB</li><li>Redis</li></ul>
-      <p class="empresa-texto">Analista de Desenvolvimento de Sistemas. Plataforma de cotação com cerca de 18 mil cotações por dia, migração de Oracle para MongoDB e a cobertura Rodas e Pneus, que elevou a conversão em 3 a 4%. Na Azul Seguros, migração de Wildfly 8 para 22 e containerização com Docker.</p>
+      <div class="empresa-cabecalho">
+        <div>
+          <span class="empresa-ano">2023 – 2026 · 3 anos</span>
+          <h3 class="empresa-titulo">Porto Seguro (Grupo Porto)</h3>
+          <span class="empresa-cargo">Analista de Engenharia de Software / Analista de Sistemas</span>
+        </div>
+      </div>
+      <ul class="empresa-habilidades">
+        <li>Java</li>
+        <li>Spring WebFlux</li>
+        <li>Quarkus</li>
+        <li>MongoDB</li>
+        <li>Oracle SQL</li>
+        <li>Redis</li>
+        <li>Angular</li>
+        <li>Docker</li>
+        <li>Wildfly</li>
+      </ul>
+      <div class="empresa-texto">
+        <ul class="empresa-pontos">
+          <li><strong>Alta Volumetria (Porto Seguro):</strong> Desenvolvimento e evolução de plataforma de cotação processando em média 18 mil cotações diárias com Spring WebFlux (programação reativa), garantindo baixa latência e alta disponibilidade.</li>
+          <li><strong>Escalabilidade Horizontal &amp; Persistência:</strong> Redesenho da arquitetura de dados e migração estratégica da persistência de Oracle (relacional) para MongoDB (NoSQL), reduzindo drasticamente gargalos de consulta de apólices.</li>
+          <li><strong>Otimização de Performance:</strong> Implementação de cache distribuído com Redis em fluxos críticos de cotação e emissão.</li>
+          <li><strong>Impacto em Negócio:</strong> Modelagem e implementação da cobertura <em>Rodas e Pneus</em>, impulsionando a conversão de cotações em 3% a 4%.</li>
+          <li><strong>Modernização de Infraestrutura (Azul Seguros):</strong> Manutenção do Sistema de Avisos de Sinistro, migração de Wildfly 8 para 22 (mitigando vulnerabilidades críticas) e containerização completa com Docker.</li>
+        </ul>
+      </div>
     </div>
 
     <div class="empresa">
-      <span class="empresa-ano">2020-23</span>
-      <h3 class="empresa-titulo">Minsait (Indra)</h3>
-      <ul class="empresa-habilidades"><li>Quarkus</li><li>Spring Boot</li><li>Angular</li><li>MQ</li><li>SWIFT / ISO 20022</li></ul>
-      <p class="empresa-texto">De trainee a analista desenvolvedor, com co-liderança técnica de uma equipe de cerca de 30 pessoas. No Banco do Brasil, microsserviços e migração de mensagens SWIFT de MT para MX. No Santander, evolução de serviços legados do backoffice, code reviews e disseminação de Clean Code.</p>
+      <div class="empresa-cabecalho">
+        <div>
+          <span class="empresa-ano">2020 – 2023 · 3 anos</span>
+          <h3 class="empresa-titulo">Minsait Brasil (Indra)</h3>
+          <span class="empresa-cargo">Analista Desenvolvedor / Trainee de Sistemas</span>
+        </div>
+      </div>
+      <ul class="empresa-habilidades">
+        <li>Java</li>
+        <li>Quarkus</li>
+        <li>Spring Boot</li>
+        <li>Angular</li>
+        <li>Filas MQ</li>
+        <li>SWIFT</li>
+        <li>ISO 20022</li>
+        <li>Clean Code</li>
+      </ul>
+      <div class="empresa-texto">
+        <ul class="empresa-pontos">
+          <li><strong>Liderança Técnica:</strong> Trajetória de evolução acelerada de trainee a co-liderança técnica de um time de aproximadamente 30 engenheiros, conduzindo code reviews, padrões de arquitetura (Clean Architecture, Design Patterns) e cerimônias ágeis (SCRUM).</li>
+          <li><strong>Projeto Banco do Brasil (SWIFT / ISO 20022):</strong> Desenvolvimento de microsserviços em Java (Quarkus) integrados a mensageria MQ para leitura, edição e processamento assíncrono de alto volume de mensagens financeiras internacionais.</li>
+          <li><strong>Conformidade Regulatória:</strong> Implementação da solução de conversão e interoperabilidade de mensagens do formato MT (posicional) para MX (XML estruturado ISO 20022).</li>
+          <li><strong>Projeto Santander:</strong> Modernização e evolução de microsserviços legados com Spring Boot e Angular para backoffice bancário com continuidade operacional.</li>
+        </ul>
+      </div>
     </div>
 
     <div class="empresa">
-      <span class="empresa-ano">2019-20</span>
-      <h3 class="empresa-titulo">Tribunal de Contas da União</h3>
-      <ul class="empresa-habilidades"><li>SQL</li><li>Dados</li></ul>
-      <p class="empresa-texto">Estágio em TI. Tratamento e consolidação de bases de dados para relatórios de auditoria.</p>
+      <div class="empresa-cabecalho">
+        <div>
+          <span class="empresa-ano">2019 – 2020 · 6 meses</span>
+          <h3 class="empresa-titulo">Tribunal de Contas da União (TCU)</h3>
+          <span class="empresa-cargo">Estagiário de Tecnologia da Informação</span>
+        </div>
+      </div>
+      <ul class="empresa-habilidades">
+        <li>Oracle SQL</li>
+        <li>Modelagem de Dados</li>
+        <li>ETL &amp; Relatórios</li>
+      </ul>
+      <div class="empresa-texto">
+        <ul class="empresa-pontos">
+          <li>Estruturação, cruzamento e consolidação de grandes bases de dados heterogêneas utilizando consultas SQL complexas para relatórios de auditoria governamental.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="stack" id="stack">
+  <div class="stack-container">
+    <h2 class="subtitulo">Stack</h2>
+    <div>
+      <p class="stack-texto">Competências técnicas consolidadas em cenários reais de <strong>alta escala, resiliência e conformidade regulatória</strong>.</p>
+      <div class="stack-grid">
+        <div class="stack-card">
+          <div class="stack-badge">Backend</div>
+          <h3>Java &amp; Arquitetura</h3>
+          <p>Java (11, 17, 21), Spring Boot, Spring WebFlux, Quarkus, Clean Architecture, Microsserviços, REST APIs, BFF, Design Patterns e SOLID.</p>
+        </div>
+        <div class="stack-card">
+          <div class="stack-badge">Mensageria</div>
+          <h3>Integração &amp; Protocolos</h3>
+          <p>Filas MQ, Protocolo SWIFT (mensagens MT e MX), Norma ISO 20022, Event-driven architecture, processamento assíncrono e reativo.</p>
+        </div>
+        <div class="stack-card">
+          <div class="stack-badge">Dados</div>
+          <h3>Persistência &amp; Cache</h3>
+          <p>Oracle Database (SQL avançado e modelagem relacional), MongoDB (NoSQL e modelagem para escala horizontal), Redis (cache distribuído de baixa latência).</p>
+        </div>
+        <div class="stack-card">
+          <div class="stack-badge">DevOps &amp; Web</div>
+          <h3>Infra &amp; Frontend</h3>
+          <p>Docker, Kubernetes, Wildfly / JBoss, CI/CD, Git, Linux, TypeScript, Angular (8 a 17), JasperReports para geração de apólices e documentos.</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -47,18 +162,19 @@ title: Início
   <div class="blog-home-container">
     <h2 class="subtitulo">Blog</h2>
     <div>
+      <p class="blog-texto">Artigos técnicos e reflexões práticas sobre <strong>engenharia de software, Clean Architecture e inteligência artificial</strong>.</p>
       <ul class="posts">
         {% for post in site.posts limit:3 %}
         <li>
           <a href="{{ post.url | relative_url }}">
-            <span class="d">{{ post.date | date: "%d/%m/%Y" }}</span>
+            <span class="d">{{ post.date | date: "%d/%m/%Y" }}{% if post.serie %} · {{ post.serie }}{% endif %}</span>
             <h3>{{ post.title }}</h3>
             {% if post.description %}<p>{{ post.description }}</p>{% endif %}
           </a>
         </li>
         {% endfor %}
       </ul>
-      <p class="ver-todos"><a href="{{ '/blog/' | relative_url }}">Ver todos os artigos →</a></p>
+      <p class="ver-todos"><a href="{{ '/blog/' | relative_url }}">Ver todos os artigos técnicos →</a></p>
     </div>
   </div>
 </section>
@@ -67,14 +183,26 @@ title: Início
   <div class="formacao-container">
     <h2 class="subtitulo">Formação</h2>
     <div>
-      <p class="formacao-texto">Formação em <strong>engenharia de software</strong> e desenvolvimento full stack, sempre em atualização.</p>
+      <p class="formacao-texto">Compromisso contínuo com <strong>fundamentos teóricos e especialização técnica</strong> em engenharia de software.</p>
       <div class="faculdade-lista">
-        <div class="faculdade"><span class="faculdade-tipo">Pós-graduação</span><span class="faculdade-curso">Engenharia de Software Java</span><span class="faculdade-instituicao">UNIPDS</span></div>
-        <div class="faculdade"><span class="faculdade-tipo">MBA</span><span class="faculdade-curso">Full Stack Web Development</span><span class="faculdade-instituicao">UNIESP</span></div>
-        <div class="faculdade"><span class="faculdade-tipo">Tecnólogo</span><span class="faculdade-curso">Gestão da Tecnologia da Informação</span><span class="faculdade-instituicao">UNIPÊ</span></div>
+        <div class="faculdade">
+          <span class="faculdade-tipo">Pós-graduação (em andamento)</span>
+          <span class="faculdade-curso">Engenharia de Software Java</span>
+          <span class="faculdade-instituicao">UNIPDS · 2025–2026</span>
+        </div>
+        <div class="faculdade">
+          <span class="faculdade-tipo">MBA</span>
+          <span class="faculdade-curso">Full Stack Web Development</span>
+          <span class="faculdade-instituicao">UNIESP · 2021–2023</span>
+        </div>
+        <div class="faculdade">
+          <span class="faculdade-tipo">Graduação Tecnológica</span>
+          <span class="faculdade-curso">Gestão da Tecnologia da Informação</span>
+          <span class="faculdade-instituicao">UNIPÊ · 2017–2019</span>
+        </div>
       </div>
       <div class="formacao-extra cursos">
-        <h3>Certificações e extensão</h3>
+        <h3>Certificações e Extensão</h3>
         <ul>
           <li>Scrum Foundation Professional Certificate <span>SFPC</span></li>
           <li>Projeto de Extensão: Clube de Programação <span>UNIPÊ</span></li>
@@ -97,6 +225,6 @@ title: Início
     fotos[i].classList.remove('ativa');
     i = (i + 1) % fotos.length;
     fotos[i].classList.add('ativa');
-  }, 3500);
+  }, 3800);
 })();
 </script>

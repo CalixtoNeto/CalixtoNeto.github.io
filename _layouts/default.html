@@ -8,16 +8,17 @@
   <link rel="icon" href="{{ '/assets/img/favicon.svg' | relative_url }}" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
 </head>
 <body>
   <header class="header">
-    <a class="logo" href="{{ '/' | relative_url }}">Calixto</a>
+    <a class="logo" href="{{ '/' | relative_url }}">Calixto<span class="logo-ponto">.</span></a>
     <nav class="header-menu">
       <a href="{{ '/' | relative_url }}#experiencia">Experiência</a>
+      <a href="{{ '/' | relative_url }}#stack">Stack</a>
       <a href="{{ '/blog/' | relative_url }}">Blog</a>
-      <a href="{{ '/' | relative_url }}#formacao">Formação</a>
+      <a href="{{ '/curriculo/' | relative_url }}" class="menu-destaque">Currículo</a>
       <a href="{{ '/' | relative_url }}#contato">Contato</a>
     </nav>
   </header>
@@ -26,11 +27,21 @@
 
   <footer class="footer" id="contato">
     <div class="footer-container">
+      <div class="footer-info">
+        <h2 class="footer-titulo">Vamos construir soluções de alta escala juntos?</h2>
+        <p class="footer-subtitulo">Aberto a posições sênior, desafios de arquitetura e projetos estratégicos em sistemas críticos.</p>
+        <div class="footer-acoes">
+          <a href="https://wa.me/{{ site.author.whatsapp }}?text=Ol%C3%A1%20Jo%C3%A3o,%20vi%20seu%20site%20e%20gostaria%20de%20conversar" target="_blank" rel="noopener" class="btn btn-lime">Conversar no WhatsApp</a>
+          <a href="mailto:{{ site.author.email }}" class="btn btn-outline-white">Enviar E-mail</a>
+        </div>
+      </div>
       <ul class="footer-contato">
-        <li><a href="https://www.linkedin.com/in/{{ site.author.linkedin }}">LinkedIn</a></li>
-        <li><a href="https://github.com/{{ site.author.github }}">GitHub</a></li>
+        <li><a href="https://www.linkedin.com/in/{{ site.author.linkedin }}" target="_blank" rel="noopener">LinkedIn ↗</a></li>
+        <li><a href="https://github.com/{{ site.author.github }}" target="_blank" rel="noopener">GitHub ↗</a></li>
+        <li><a href="{{ '/curriculo/' | relative_url }}">Currículo Completo ↗</a></li>
+        <li class="footer-local">{{ site.author.location }}</li>
       </ul>
-      <p class="footer-copy">João Calixto. Alguns direitos reservados. · <a href="{{ '/feed.xml' | relative_url }}">RSS</a></p>
+      <p class="footer-copy">© João Calixto Neto · Todos os direitos reservados. · <a href="{{ '/feed.xml' | relative_url }}">RSS</a></p>
     </div>
   </footer>
 </body>

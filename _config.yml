@@ -1,6 +1,6 @@
 title: João Calixto
-tagline: Engenheiro de Software Java & Angular
-description: Artigos sobre arquitetura de software, Clean Architecture, Java, Angular e engenharia com IA.
+tagline: Engenheiro de Software Sênior | Java · Sistemas Distribuídos · Microsserviços
+description: Engenheiro de Software Sênior especializado em Java, microsserviços de alto volume, sistemas distribuídos, Clean Architecture e cloud nos setores financeiro e de seguros.
 url: "https://calixtoneto.com"
 lang: pt-BR
 timezone: America/Sao_Paulo
@@ -9,8 +9,9 @@ author:
   name: João Calixto
   github: CalixtoNeto
   linkedin: calixto-neto
-  # foto: /assets/img/foto.jpg   # descomente e adicione a imagem para aparecer na home
   email: calixtoneeto@gmail.com
+  whatsapp: "5583995481710"
+  location: "João Pessoa – PB, Brasil"
 
 markdown: kramdown
 highlighter: rouge
