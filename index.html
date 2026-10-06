@@ -3,7 +3,12 @@ layout: default
 title: Início
 ---
 <section class="introducao">
-  {% if site.author.foto %}<img src="{{ site.author.foto | relative_url }}" alt="{{ site.author.name }}">{% else %}<div class="avatar" aria-hidden="true">JC</div>{% endif %}
+  {% assign fotos = site.static_files | where_exp: "f", "f.path contains '/assets/img/fotos/'" %}
+  {% if fotos.size > 0 %}
+  <div class="carrossel" aria-label="Fotos">
+    {% for f in fotos %}<img src="{{ f.path | relative_url }}" alt="" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"{% if forloop.first %} class="ativa"{% endif %}>{% endfor %}
+  </div>
+  {% else %}<div class="avatar" aria-hidden="true">JC</div>{% endif %}
   <div>
     <h1>Engenheiro de Software Java &amp; Angular</h1>
     <p>Mais de 6 anos construindo backends, microsserviços e plataformas de alto volume em seguros e no setor financeiro. Localizado em João Pessoa 🌴</p>
@@ -79,3 +84,19 @@ title: Início
     </div>
   </div>
 </section>
+
+<script>
+(function () {
+  var fotos = document.querySelectorAll('.carrossel img');
+  if (fotos.length < 2 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var i = 0, box = document.querySelector('.carrossel'), pausado = false;
+  box.addEventListener('mouseenter', function () { pausado = true; });
+  box.addEventListener('mouseleave', function () { pausado = false; });
+  setInterval(function () {
+    if (pausado) return;
+    fotos[i].classList.remove('ativa');
+    i = (i + 1) % fotos.length;
+    fotos[i].classList.add('ativa');
+  }, 3500);
+})();
+</script>
