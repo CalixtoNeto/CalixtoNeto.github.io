@@ -5,23 +5,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   {% seo %}
   {% feed_meta %}
+  <link rel="icon" href="{{ '/assets/img/favicon.svg' | relative_url }}" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
 </head>
 <body>
-  <button class="burger" aria-label="Menu" onclick="document.body.classList.toggle('open')">?</button>
-  <div class="shell">
-    {% include sidebar.html %}
-    <main class="content">
-      {{ content }}
-      <footer class="footer">
-        © {{ site.time | date: "%Y" }} {{ site.author.name }} ·
-        <a href="https://github.com/{{ site.author.github }}">GitHub</a> ·
-        <a href="{{ '/feed.xml' | relative_url }}">RSS</a>
-      </footer>
-    </main>
-  </div>
+  <header class="header">
+    <a class="logo" href="{{ '/' | relative_url }}">Calixto</a>
+    <nav class="header-menu">
+      <a href="{{ '/' | relative_url }}#experiencia">Experiência</a>
+      <a href="{{ '/blog/' | relative_url }}">Blog</a>
+      <a href="{{ '/' | relative_url }}#formacao">Formação</a>
+      <a href="{{ '/' | relative_url }}#contato">Contato</a>
+    </nav>
+  </header>
+
+  {{ content }}
+
+  <footer class="footer" id="contato">
+    <div class="footer-container">
+      <p class="footer-texto">Estou aberto a conversar sobre projetos, arquitetura de software e oportunidades. Entre em contato comigo 👋</p>
+      <ul class="footer-contato">
+        <li><a href="mailto:{{ site.author.email }}">{{ site.author.email }}</a></li>
+        <li><a href="https://www.linkedin.com/in/{{ site.author.linkedin }}">LinkedIn</a></li>
+        <li><a href="https://github.com/{{ site.author.github }}">GitHub</a></li>
+      </ul>
+      <p class="footer-copy">João Calixto. Alguns direitos reservados. · <a href="{{ '/feed.xml' | relative_url }}">RSS</a></p>
+    </div>
+  </footer>
 </body>
 </html>

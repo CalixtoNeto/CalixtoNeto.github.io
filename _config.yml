@@ -8,6 +8,8 @@ timezone: America/Sao_Paulo
 author:
   name: João Calixto
   github: CalixtoNeto
+  linkedin: calixto-neto
+  # foto: /assets/img/foto.jpg   # descomente e adicione a imagem para aparecer na home
   email: calixtoneeto@gmail.com
 
 markdown: kramdown
