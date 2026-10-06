@@ -1,0 +1,26 @@
+title: João Calixto
+tagline: Desenvolvedor Java & Angular
+description: Artigos sobre arquitetura de software, Clean Architecture, Java, Angular e engenharia com IA.
+url: "https://calixtoneto.com"
+lang: pt-BR
+timezone: America/Sao_Paulo
+
+author:
+  name: João Calixto
+  github: CalixtoNeto
+  email: calixtoneeto@gmail.com
+
+markdown: kramdown
+highlighter: rouge
+permalink: /blog/:year/:month/:title/
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor

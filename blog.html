@@ -1,0 +1,15 @@
+---
+layout: default
+title: Blog
+permalink: /blog/
+---
+<h1 class="section-title">Todos os artigos</h1>
+<div class="list">
+  {% for post in site.posts %}
+  <a class="item" href="{{ post.url | relative_url }}">
+    <span class="d">{{ post.date | date: "%d/%m/%Y" }}{% if post.serie %} · {{ post.serie }}{% endif %}</span>
+    <h3>{{ post.title }}</h3>
+    {% if post.description %}<p>{{ post.description }}</p>{% endif %}
+  </a>
+  {% endfor %}
+</div>

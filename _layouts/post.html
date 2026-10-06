@@ -1,0 +1,21 @@
+---
+layout: default
+---
+<article class="card prose">
+  <p class="meta">
+    {% if page.serie %}<span class="tag">{{ page.serie }} · {{ page.ordem | prepend: '0' | slice: -2, 2 }}</span>{% endif %}
+    <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%d/%m/%Y" }}</time>
+    · {{ content | number_of_words | divided_by: 200 | plus: 1 }} min de leitura
+  </p>
+  <h1>{{ page.title }}</h1>
+  {{ content }}
+</article>
+{% if page.serie %}
+{% assign serie = site.posts | where: "serie", page.serie | sort: "ordem" %}
+{% assign prev_n = page.ordem | minus: 1 %}
+{% assign next_n = page.ordem | plus: 1 %}
+<nav class="pager">
+  {% for p in serie %}{% if p.ordem == prev_n %}<a href="{{ p.url | relative_url }}">? {{ p.title }}</a>{% endif %}{% endfor %}
+  {% for p in serie %}{% if p.ordem == next_n %}<a class="next" href="{{ p.url | relative_url }}">{{ p.title }} ?</a>{% endif %}{% endfor %}
+</nav>
+{% endif %}

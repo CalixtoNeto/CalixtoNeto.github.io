@@ -1,0 +1,24 @@
+---
+layout: default
+title: Início
+---
+<section class="hero">
+  <div class="avatar">JC</div>
+  <div>
+    <h1><mark>Desenvolvedor</mark><br>Java &amp; Angular</h1>
+    <p>Escrevo sobre arquitetura de software, Clean Architecture e como usar IA com disciplina de engenharia.</p>
+    <p class="where">Rio de Janeiro</p>
+    <p><a href="{{ '/blog/' | relative_url }}">Ler o blog ?</a></p>
+  </div>
+</section>
+
+<h2 class="section-title">Últimos artigos</h2>
+<div class="list">
+  {% for post in site.posts limit:5 %}
+  <a class="item" href="{{ post.url | relative_url }}">
+    <span class="d">{{ post.date | date: "%d/%m/%Y" }}</span>
+    <h3>{{ post.title }}</h3>
+    {% if post.description %}<p>{{ post.description }}</p>{% endif %}
+  </a>
+  {% endfor %}
+</div>
