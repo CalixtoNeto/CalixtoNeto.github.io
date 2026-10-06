@@ -113,7 +113,11 @@ Para as próximas eleições há um segundo workflow, de disparo manual: em **Ac
 
 ## Como a IA entrou nisso
 
-Eu não pedi "faça um mapa eleitoral" e esperei. O que funcionou foi trabalhar em passos pequenos e verificáveis, que o histórico de commits mostra bem:
+A ideia veio da minha época de estágio no Tribunal de Contas da União. Lá eu trabalhei com R, Python e banco de dados, tratando bases de dados abertos e transformando em gráficos e mapas para análises, inclusive com dados abertos da Paraíba. Fiz isso em R Markdown: um arquivo para tratar os dados, outro para os gráficos e outro para um mapa por município.
+
+Anos depois, a pergunta foi outra: **quão prático e rápido seria repetir esse tipo de trabalho hoje, com um LLM ao lado?** O exercício que escolhi foi o das eleições. Eu queria ler os dados do TSE e montar mapas para ver como cada município do meu estado votou, analisar a votação de cada candidato e acompanhar a evolução dele entre uma eleição e outra: onde ganhou votos, onde perdeu. É a mesma lógica das análises que eu fazia no TCU, só que agora publicada num site que qualquer pessoa abre.
+
+O que mudou foi a forma de trabalhar. Em vez de escrever tudo do zero, fui em passos pequenos e verificáveis, e o histórico de commits mostra a ordem:
 
 1. um gerador que baixa e agrega os dados de **um** ano;
 2. o mesmo gerador para vários anos;
@@ -122,7 +126,7 @@ Eu não pedi "faça um mapa eleitoral" e esperei. O que funcionou foi trabalhar 
 5. votos por escola;
 6. comparação entre eleições.
 
-A divisão de trabalho que funcionou para mim: a IA escreve rápido a parte mecânica (parser de CSV, leitura de .zip, componentes, workflows), e eu decido o desenho, rodo, olho os números e volto com o erro ou a dúvida. O ciclo é curto: pedir, rodar, conferir, ajustar.
+A IA escreve rápido a parte mecânica: parser de CSV, leitura de .zip, componentes, workflows. O desenho e a análise continuam sendo do analista: o que perguntar aos dados, como juntar as fontes, o que o número significa. A sensação de quem já passou por R Markdown e consultas SQL é de que a parte trabalhosa deixou de ser o código e passou a ser entender os dados.
 
 ## O que a IA não resolve sozinha
 
