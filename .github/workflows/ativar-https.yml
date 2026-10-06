@@ -1,0 +1,43 @@
+name: Ativar HTTPS no domínio
+
+# Roda toda noite até o GitHub emitir o certificado de calixtoneto.com.
+# Quando o certificado existir, liga o "Enforce HTTPS" e se desativa.
+on:
+  schedule:
+    - cron: '0 7 * * *'   # 07:00 UTC = 04:00 em Brasília
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write      # alterar o Enforce HTTPS
+  actions: write    # desativar este workflow depois de concluir
+
+jobs:
+  https:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      REPO: ${{ github.repository }}
+    steps:
+      - name: Conferir certificado e ativar HTTPS
+        run: |
+          set -euo pipefail
+          info=$(gh api "repos/$REPO/pages")
+          cert=$(jq -r '.https_certificate.state // "nenhum"' <<<"$info")
+          enforced=$(jq -r '.https_enforced' <<<"$info")
+          echo "certificado: $cert | https_enforced: $enforced"
+
+          if [ "$enforced" = "true" ]; then
+            echo "HTTPS já está ativo. Desativando este workflow."
+            gh workflow disable ativar-https.yml --repo "$REPO"
+            exit 0
+          fi
+
+          if [ "$cert" = "nenhum" ]; then
+            echo "Certificado ainda não foi emitido. Tentamos de novo amanhã."
+            exit 0
+          fi
+
+          gh api -X PUT "repos/$REPO/pages" -F https_enforced=true
+          echo "Enforce HTTPS ativado."
+          gh workflow disable ativar-https.yml --repo "$REPO"
