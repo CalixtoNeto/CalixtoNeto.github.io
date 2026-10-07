@@ -155,3 +155,129 @@ Os dois repositórios estão abertos. Para uma nova cidade, o ponto de partida �
 ## O que fica
 
 Há alguns anos, um projeto assim exigiria servidor, banco, deploy e uma conta mensal. Hoje cabe em uma pasta de arquivos estáticos, em um repositório público e em pouco mais de um dia de trabalho com um assistente de código. Dados abertos existem, hospedagem estática é gratuita, e um LLM encurta a distância entre ter a ideia e ter o site no ar. O trabalho que sobra, e que importa, é entender os dados e conferir o resultado.
+
+## Extra: refatorando com Uncle Bob, pensando no agente
+
+O site ficou no ar, mas o código foi escrito para ficar pronto rápido, não para durar. O gerador da Paraíba (`scripts/gerar-dados.mjs`) tinha 251 linhas num arquivo só, funções de 33 a 39 linhas, 22 linhas com mais de 120 caracteres e **nenhum teste**. Funciona, mas cada mudança dependia de rodar tudo contra o TSE e conferir na mão.
+
+Os princípios de *Clean Code* do Uncle Bob ganharam uma leitura nova com agentes de IA escrevendo boa parte do código. Usei três deles como roteiro para refatorar o gerador, com o próprio agente fazendo o trabalho. Tudo está na branch [`refactor/clean-code-ia`](https://github.com/CalixtoNeto/mapa-do-voto-pb/tree/refactor/clean-code-ia), em três commits que dá para ler na ordem.
+
+### 1. Primeiro a trava, depois a refatoração
+
+O ciclo de refatoração do Uncle Bob tem uma condição: só se mexe em código coberto por teste. Para código gerado por máquina isso vale ainda mais. O agente precisa conseguir rodar os testes **sozinho**, sem pedir nada a ninguém, para saber se a mudança dele quebrou algo.
+
+Aqui apareceu a primeira dificuldade: a rede desta sessão não chegava ao TSE. Isso acabou sendo bom, porque obrigou o teste a ser offline desde o início. A solução foi um teste de caracterização (*golden master*), escrito **contra o código antigo, antes de qualquer mudança**:
+
+1. Um cenário pequeno de 2022, com os mesmos formatos do TSE: CSV com aspas, ponto e vírgula e Windows-1252, dentro de .zip.
+2. Os .zip vão para `tmp/`, onde o gerador já procura antes de baixar. Nenhum download acontece.
+3. Um `fetch` falso, carregado com `node --import`, responde como a API de resultados para o 2º turno.
+4. O script roda inteiro e a saída é gravada em `test/fixtures/esperado/`.
+
+O cenário passa de propósito pelos casos difíceis da seção anterior: presidente só no arquivo nacional, nome de local `#NULO#`, candidatura anulada, voto de legenda, branco, outra UF, município sem código IBGE e 2º turno vindo da API. Conferi a saída gravada à mão antes de confiar nela.
+
+```js
+// test/fixtures/fetch-falso.mjs: URL fora do arquivo responde 404,
+// que é como o TSE responde a um arquivo que ainda não existe.
+globalThis.fetch = async url => {
+  const corpo = respostas[String(url)];
+  return corpo ? Response.json(corpo) : new Response('não encontrado', { status: 404 });
+};
+```
+
+Esse teste foi o primeiro commit. Só depois dele o código começou a mudar.
+
+### 2. Funções e arquivos curtos como contrato de contexto
+
+A leitura atual do "funções pequenas" é que um bloco de 10 a 20 linhas cabe inteiro na atenção do modelo. Vale ser preciso aqui: um LLM lê 251 linhas sem esforço. O ganho real está em outro lugar. Com unidades pequenas, o agente consegue **ler só o que vai mudar, mudar só isso e testar só isso**. A edição fica cirúrgica, o diff fica pequeno e a revisão humana fica possível.
+
+Antes, uma função lia o .zip, filtrava a linha, convertia o código do município, somava o voto e corrigia a situação do candidato, tudo junto:
+
+```js
+const ibge = ibgeDe(c[ix.CD_MUNICIPIO]); if (!ibge) { semMun.add(c[ix.CD_MUNICIPIO]); return; }
+const turno = c[ix.NR_TURNO], tk = `${ano}|${turno}|${cargo}`, key = `${tk}|${c[ix.SQ_CANDIDATO]}`;
+const ds = porTurno[turno] ||= novoDs('csv');
+```
+
+Depois, cada fonte de dados separa duas coisas: o **tratamento de uma linha**, que é uma função pura, e a **leitura do arquivo**, que é I/O. A primeira é testada sem .zip nenhum:
+
+```js
+aoRegistro: (campos, colunas) => {
+  if (!ehDaEleicao(campos, colunas, ano, cargoAceito)) return;
+  const ibge = ibgeDe(campos[colunas.CD_MUNICIPIO]);
+  if (!ibge) { semIbge.add(campos[colunas.CD_MUNICIPIO]); return; }
+  const candidato = candidatoDoRegistro(campos, colunas, ano);
+  const apuracao = apuracaoDoTurno(porTurno, candidato.turno, 'csv');
+  somarVoto(apuracao, candidato, ibge, inteiro(campos[colunas[colunaDeVotos]]));
+  // ...
+},
+```
+
+O gerador virou 14 arquivos, cada um com uma responsabilidade:
+
+| Pasta | O que tem |
+|---|---|
+| `gerar-dados.mjs` | Só a linha de comando: escolhe os anos e encadeia as etapas |
+| `eleicao/` | Configuração (UF, cargos), conversão TSE→IBGE e a soma de votos |
+| `fontes/` | Uma fonte por arquivo: CSV por município, API, CSV por seção, tabela de locais |
+| `saida/` | Poda dos locais, `pessoas.json`, `index.json` e escrita dos arquivos |
+| `lib/` | CSV do TSE e acesso à rede (retentativa, paralelismo, cache, .zip) |
+
+O que toca a rede entra por parâmetro (`buscarJson`, `ibgeDe`), então o teste troca por uma versão falsa sem gambiarra.
+
+### 3. Nomes que explicam, comentários que justificam
+
+Modelos de linguagem processam nomes como texto com significado. `ds`, `tk`, `ix`, `c` e `MIN_DIG` obrigam quem lê, pessoa ou modelo, a reconstruir a intenção a partir do uso. Viraram `apuracao`, `chaveDoCargo`, `colunas`, `campos` e `DIGITOS_DO_CANDIDATO`. Os códigos de cargo (`'1'`, `'3'`) ganharam nome (`CARGOS.PRESIDENTE`, `CARGOS.GOVERNADOR`), e regras soltas no meio de um `if` viraram funções com nome:
+
+```js
+export function ehVotoNominal(cargo, numero) {
+  const digitos = DIGITOS_DO_CANDIDATO[cargo];
+  return Boolean(digitos) && numero.length >= digitos && !NUMEROS_BRANCO_E_NULO.includes(numero);
+}
+```
+
+Os comentários que sobraram explicam o **porquê**, que é o que o código não consegue dizer: por que o presidente vem de outro arquivo, por que existe `#NULO#`, por que a poda de locais existe. Comentários que repetiam o código saíram.
+
+Uma exceção consciente: os nomes curtos dentro dos JSON (`cands`, `tot`, `mun`) ficaram como estavam. Eles são o contrato com o front-end, e renomear quebraria o site sem ganho nenhum.
+
+### O que a sabotagem mostrou
+
+Um teste que nunca falha não prova nada. Por isso, depois da refatoração, quebrei o código de propósito para ver se a trava pegava.
+
+Tirei o "95" (voto branco) da lista de números ignorados. **O golden master continuou passando.** O motivo: mais adiante, a poda de locais remove qualquer número que não seja de um candidato, e o erro some antes de chegar à saída. O golden master garante que o resultado final não mudou, mas não garante que cada regra funciona sozinha. Se a poda mudar um dia, esse erro aparece.
+
+Por isso vieram os testes unitários, um por regra: divisão do CSV, voto de legenda, branco e nulo, `#NULO#`, poda de candidaturas anuladas, ligação de pessoas entre eleições e o que é pedido à API. Com eles, a mesma sabotagem falha na hora, com uma mensagem que diz exatamente o que quebrou:
+
+```text
+not ok 15 - branco (95) e nulo (96) não são votos nominais
+```
+
+A lição vale para qualquer código gerado por IA: **o golden master protege a refatoração, e o teste unitário protege a regra**. Um não substitui o outro.
+
+### O agente precisa saber como se verificar
+
+A última peça é dizer ao agente, por escrito, como ele confere o próprio trabalho. O repositório ganhou um `CLAUDE.md` curto:
+
+```markdown
+- Rode `npm test`. Roda offline e em menos de um segundo; não há outro passo de verificação.
+- Se o golden master falhar, a saída mudou: corrija o código. Só regrave quando
+  a mudança na saída for o objetivo da tarefa, e diga no resumo o que mudou.
+- Regra nova ou caso novo dos dados do TSE: escreva primeiro o teste, veja falhar, depois o código.
+```
+
+E o CI passou a rodar `npm test` em todo push e pull request, e também antes do workflow que gera os dados de uma eleição nova. Se o gerador estiver quebrado, os dados errados não chegam a ser publicados.
+
+### Antes e depois
+
+| | Antes | Depois |
+|---|---|---|
+| Arquivos do gerador | 2 | 14 |
+| Maior arquivo | 251 linhas | 96 linhas |
+| Maior função | 39 linhas | 16 linhas |
+| Funções com mais de 20 linhas | 4 | 0 |
+| Linhas com mais de 120 caracteres | 22 | 0 |
+| Testes | 0 | 31, offline, em menos de 0,5 s |
+| Saída gerada | | idêntica |
+
+O código ficou maior: de 357 para 625 linhas, mais 413 de testes. É o preço de nomes mais longos, funções separadas e regras explícitas, e é um preço que vale. A conferência final foi com os dados reais: rodando o gerador de índice sobre os 13 MB já publicados, `index.json` e `pessoas.json` saíram idênticos aos que estão no ar.
+
+O resumo é o mesmo do resto do artigo, agora aplicado ao código: **o LLM acelera, mas o resultado precisa ser verificável**. Na primeira versão, quem verificava era eu, comparando números com o TSE. Agora o próprio agente verifica, em meio segundo, toda vez que mexe em algo.
