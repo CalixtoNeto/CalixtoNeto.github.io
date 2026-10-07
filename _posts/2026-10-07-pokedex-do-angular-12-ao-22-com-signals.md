@@ -269,6 +269,8 @@ Se um deles falhar depois de uma refatoração, o comportamento mudou: corrija o
 
 E um workflow no GitHub Actions roda os testes unitários, a build e os ponta a ponta em todo push e pull request. Um próximo PR que não compile vai aparecer vermelho antes de chegar à Vercel.
 
+No PR novo, a CI passou de primeira, com os testes ponta a ponta rodando num ambiente limpo do GitHub. O deploy de preview da Vercel, que tinha falhado nos dois PRs antigos, também ficou pronto na primeira tentativa.
+
 ## Antes e depois
 
 | | Angular 12 (`main`) | Angular 22 (PR #3) |
