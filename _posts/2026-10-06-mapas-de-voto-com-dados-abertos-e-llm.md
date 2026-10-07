@@ -162,7 +162,7 @@ O site ficou no ar, mas o código foi escrito para ficar pronto rápido, não pa
 
 Bayeux tinha o mesmo problema em dois scripts: `gerar-dados.mjs` (163 linhas) e `gerar-secoes.mjs` (117 linhas), que ainda carregava a própria cópia do parser de CSV e do leitor de .zip.
 
-Os princípios de *Clean Code* do Uncle Bob ganharam uma leitura nova com agentes de IA escrevendo boa parte do código. Usei três deles como roteiro para refatorar os dois geradores, com o próprio agente fazendo o trabalho. Cada repositório tem a branch `refactor/clean-code-ia` ([Paraíba](https://github.com/CalixtoNeto/mapa-do-voto-pb/tree/refactor/clean-code-ia), [Bayeux](https://github.com/CalixtoNeto/mapa-do-voto-bayeux/tree/refactor/clean-code-ia)), com três commits que dá para ler na ordem: a trava, a refatoração e o CI.
+Os princípios de *Clean Code* do Uncle Bob ganharam uma leitura nova com agentes de IA escrevendo boa parte do código. Usei três deles como roteiro para refatorar os dois geradores, com o próprio agente fazendo o trabalho. Cada repositório recebeu um pull request ([Paraíba](https://github.com/CalixtoNeto/mapa-do-voto-pb/pull/1/commits), [Bayeux](https://github.com/CalixtoNeto/mapa-do-voto-bayeux/pull/1/commits)) com três commits que dá para ler na ordem: a trava, a refatoração e o CI.
 
 ### 1. Primeiro a trava, depois a refatoração
 
