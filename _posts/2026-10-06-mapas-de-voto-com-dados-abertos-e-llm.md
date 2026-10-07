@@ -160,7 +160,9 @@ Há alguns anos, um projeto assim exigiria servidor, banco, deploy e uma conta m
 
 O site ficou no ar, mas o código foi escrito para ficar pronto rápido, não para durar. O gerador da Paraíba (`scripts/gerar-dados.mjs`) tinha 251 linhas num arquivo só, funções de 33 a 39 linhas, 22 linhas com mais de 120 caracteres e **nenhum teste**. Funciona, mas cada mudança dependia de rodar tudo contra o TSE e conferir na mão.
 
-Os princípios de *Clean Code* do Uncle Bob ganharam uma leitura nova com agentes de IA escrevendo boa parte do código. Usei três deles como roteiro para refatorar o gerador, com o próprio agente fazendo o trabalho. Tudo está na branch [`refactor/clean-code-ia`](https://github.com/CalixtoNeto/mapa-do-voto-pb/tree/refactor/clean-code-ia), em três commits que dá para ler na ordem.
+Bayeux tinha o mesmo problema em dois scripts: `gerar-dados.mjs` (163 linhas) e `gerar-secoes.mjs` (117 linhas), que ainda carregava a própria cópia do parser de CSV e do leitor de .zip.
+
+Os princípios de *Clean Code* do Uncle Bob ganharam uma leitura nova com agentes de IA escrevendo boa parte do código. Usei três deles como roteiro para refatorar os dois geradores, com o próprio agente fazendo o trabalho. Cada repositório tem a branch `refactor/clean-code-ia` ([Paraíba](https://github.com/CalixtoNeto/mapa-do-voto-pb/tree/refactor/clean-code-ia), [Bayeux](https://github.com/CalixtoNeto/mapa-do-voto-bayeux/tree/refactor/clean-code-ia)), com três commits que dá para ler na ordem: a trava, a refatoração e o CI.
 
 ### 1. Primeiro a trava, depois a refatoração
 
@@ -184,7 +186,9 @@ globalThis.fetch = async url => {
 };
 ```
 
-Esse teste foi o primeiro commit. Só depois dele o código começou a mudar.
+Em Bayeux, o cenário tem duas eleições: 2024 pelo CSV por seção e 2026 só pela API, que é o caminho de quando o TSE ainda não publicou o arquivo por seção. Ele também cobre o que é próprio dos bairros: "CENTRO" e "Centro" no mesmo bairro, coordenada com vírgula decimal, coordenada fora do município e seção que não está na tabela de locais.
+
+Esse teste foi o primeiro commit nos dois repositórios. Só depois dele o código começou a mudar.
 
 ### 2. Funções e arquivos curtos como contrato de contexto
 
@@ -212,7 +216,7 @@ aoRegistro: (campos, colunas) => {
 },
 ```
 
-O gerador virou 14 arquivos, cada um com uma responsabilidade:
+O gerador da Paraíba virou 14 arquivos, cada um com uma responsabilidade:
 
 | Pasta | O que tem |
 |---|---|
@@ -223,6 +227,8 @@ O gerador virou 14 arquivos, cada um com uma responsabilidade:
 | `lib/` | CSV do TSE e acesso à rede (retentativa, paralelismo, cache, .zip) |
 
 O que toca a rede entra por parâmetro (`buscarJson`, `ibgeDe`), então o teste troca por uma versão falsa sem gambiarra.
+
+Bayeux seguiu a mesma divisão e ganhou uma pasta `secoes/` para a tabela de locais: a grafia dos bairros, as coordenadas e a montagem da tabela viraram funções puras. A cópia do parser de CSV sumiu, e a pasta `lib/` passou a ser igual nos dois repositórios. Duplicação também é contexto: se o agente corrige um bug numa cópia, nada garante que ele vai lembrar da outra.
 
 ### 3. Nomes que explicam, comentários que justificam
 
@@ -243,7 +249,7 @@ Uma exceção consciente: os nomes curtos dentro dos JSON (`cands`, `tot`, `mun`
 
 Um teste que nunca falha não prova nada. Por isso, depois da refatoração, quebrei o código de propósito para ver se a trava pegava.
 
-Tirei o "95" (voto branco) da lista de números ignorados. **O golden master continuou passando.** O motivo: mais adiante, a poda de locais remove qualquer número que não seja de um candidato, e o erro some antes de chegar à saída. O golden master garante que o resultado final não mudou, mas não garante que cada regra funciona sozinha. Se a poda mudar um dia, esse erro aparece.
+Na Paraíba, tirei o "95" (voto branco) da lista de números ignorados. **O golden master continuou passando.** O motivo: mais adiante, a poda de locais remove qualquer número que não seja de um candidato, e o erro some antes de chegar à saída. O golden master garante que o resultado final não mudou, mas não garante que cada regra funciona sozinha. Se a poda mudar um dia, esse erro aparece.
 
 Por isso vieram os testes unitários, um por regra: divisão do CSV, voto de legenda, branco e nulo, `#NULO#`, poda de candidaturas anuladas, ligação de pessoas entre eleições e o que é pedido à API. Com eles, a mesma sabotagem falha na hora, com uma mensagem que diz exatamente o que quebrou:
 
@@ -268,16 +274,16 @@ E o CI passou a rodar `npm test` em todo push e pull request, e também antes do
 
 ### Antes e depois
 
-| | Antes | Depois |
-|---|---|---|
-| Arquivos do gerador | 2 | 14 |
-| Maior arquivo | 251 linhas | 96 linhas |
-| Maior função | 39 linhas | 16 linhas |
-| Funções com mais de 20 linhas | 4 | 0 |
-| Linhas com mais de 120 caracteres | 22 | 0 |
-| Testes | 0 | 31, offline, em menos de 0,5 s |
-| Saída gerada | | idêntica |
+| | Paraíba antes | Paraíba depois | Bayeux antes | Bayeux depois |
+|---|---|---|---|---|
+| Arquivos dos geradores | 2 | 14 | 3 | 17 |
+| Maior arquivo | 251 linhas | 96 linhas | 163 linhas | 93 linhas |
+| Maior função | 39 linhas | 16 linhas | 38 linhas | 20 linhas |
+| Funções com mais de 20 linhas | 4 | 0 | 4 | 0 |
+| Linhas com mais de 120 caracteres | 22 | 0 | 27 | 0 |
+| Testes | 0 | 31 | 0 | 31 |
+| Saída gerada | | idêntica | | idêntica |
 
-O código ficou maior: de 357 para 625 linhas, mais 413 de testes. É o preço de nomes mais longos, funções separadas e regras explícitas, e é um preço que vale. A conferência final foi com os dados reais: rodando o gerador de índice sobre os 13 MB já publicados, `index.json` e `pessoas.json` saíram idênticos aos que estão no ar.
+Os testes rodam offline e levam menos de meio segundo em cada repositório. O código ficou maior: na Paraíba, de 357 para 625 linhas; em Bayeux, de 386 para 602. É o preço de nomes mais longos, funções separadas e regras explícitas, e é um preço que vale. A conferência final foi com os dados reais: rodando o gerador de índice sobre os dados já publicados, `index.json` e `pessoas.json` saíram idênticos aos que estão no ar nos dois sites.
 
 O resumo é o mesmo do resto do artigo, agora aplicado ao código: **o LLM acelera, mas o resultado precisa ser verificável**. Na primeira versão, quem verificava era eu, comparando números com o TSE. Agora o próprio agente verifica, em meio segundo, toda vez que mexe em algo.
